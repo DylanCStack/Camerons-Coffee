@@ -46,6 +46,10 @@ function coffee_imports_views_default_views() {
   $handler->display->display_options['fields']['field_locale']['field'] = 'field_locale';
   $handler->display->display_options['fields']['field_locale']['label'] = '';
   $handler->display->display_options['fields']['field_locale']['element_label_colon'] = FALSE;
+  /* Field: Content: Comment count */
+  $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
+  $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
+  $handler->display->display_options['fields']['comment_count']['field'] = 'comment_count';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
