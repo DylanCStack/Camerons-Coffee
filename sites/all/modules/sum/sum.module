@@ -1,0 +1,53 @@
+<?php
+
+function sum_menu() {
+  $items['sum'] = [
+    'title' => 'Calculate Sum',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['sum_form'],
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  ];
+  $items['sum_success_page'] = [
+    'title' => 'Success',
+    'page callback' => 'sum_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  ];
+  return $items;
+}
+
+function sum_form() {
+  $form['augend'] = [
+    '#title' => 'Augend',
+    '#type' => 'textfield',
+    '#description' => t('Please enter your starting number.')
+  ];
+
+  $form['addend'] = [
+    '#title' => 'Addend',
+    '#type' => 'textfield',
+    '#description' => t('Please enter a number to add to the starting number.')
+  ];
+
+  $form['submit'] = [
+    '#type' => 'submit',
+    '#value' => 'Calculate Sum',
+  ];
+
+  return $form;
+}
+
+function sum_form_submit($form, &$form_state) {
+    $first_number = $form_state['values']['augend'];
+    $second_number = $form_state['values']['addend'];
+    $sum = $first_number + $second_number;
+    $_SESSION['sum_output'] = $sum;
+
+    $form_state['redirect'] = 'sum_success_page';
+}
+
+function sum_success() {
+    $answer = $_SESSION['sum_output'];
+    return 'Congratulations! The computer calculated the following sum for you: ' . $answer;
+}
