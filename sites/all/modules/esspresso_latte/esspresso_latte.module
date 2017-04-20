@@ -21,6 +21,8 @@ function esspresso_latte_form() {
     $form['count_goal'] = array(
         '#title' => 'Count Goal',
         '#type' => 'textfield',
+        '#element_validate' => ['element_validate_integer_positive', 'element_validate_divisible'],
+        '#required' => TRUE,
         '#description' => t('Please enter the number you want to count up to.'),
     );
 
@@ -60,4 +62,11 @@ function esspresso_latte_success() {
     }
     $output = $output . '</ul>';
     return "Hooray! $output";
+}
+
+
+function element_validate_divisible($element) {
+    if (!($element['#value'] % 5 == 0 || $element['#value'] % 3 == 0)) {
+        form_error($element, t('Number must be divisible by 3 or 5.'));
+    }
 }
