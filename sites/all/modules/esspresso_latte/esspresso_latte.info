@@ -1,0 +1,5 @@
+name = Esspresso Latte
+description = Displays output of the Esspresso Latte Problem using a form for input.
+package = My First Modules
+core = 7.x
+files[] = esspresso_latte.module

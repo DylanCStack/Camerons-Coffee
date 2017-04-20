@@ -1,0 +1,63 @@
+<?php
+
+function esspresso_latte_menu() {
+    $items['esspresso_latte'] = array(
+        'title' => 'Esspresso Latte Problem',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('esspresso_latte_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+        $items['esspresso_latte_success_page'] = array(
+        'title' => 'Succpresso',
+        'page callback' => 'esspresso_latte_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function esspresso_latte_form() {
+    $form['count_goal'] = array(
+        '#title' => 'Count Goal',
+        '#type' => 'textfield',
+        '#description' => t('Please enter the number you want to count up to.'),
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Go',
+    );
+
+    return $form;
+}
+
+function esspresso_latte_form_submit($form, &$form_state) {
+
+    $count_max = $form_state['values']['count_goal'];
+    $esspressolatte_output = array();
+
+    for ($i=1; $i <= $count_max; $i++) {
+        if ($i % 3 == 0 && $i % 5 == 0) {
+            array_push($esspressolatte_output, "DRIP!");
+        } elseif ($i % 3 == 0) {
+            array_push($esspressolatte_output, "latte");
+        } elseif ($i % 5 == 0) {
+            array_push($esspressolatte_output, "espresso");
+        } else {
+            array_push($esspressolatte_output, $i);
+        }
+    }
+
+    $_SESSION['esspresso_latte_output'] = $esspressolatte_output;
+    $form_state['redirect'] = 'esspresso_latte_success_page';
+}
+
+function esspresso_latte_success() {
+    $output = '<ul>';
+    foreach ($_SESSION['esspresso_latte_output'] as $value) {
+        $output = $output . '<li>' . $value . '</li>';
+    }
+    $output = $output . '</ul>';
+    return "Hooray! $output";
+}
